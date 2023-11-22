@@ -110,5 +110,4 @@ function saveInLocastorage() {
   }
 
   localStorage.setItem("openItems", JSON.stringify(localStorageArray));
-  console.log(localStorageArray);
 }
