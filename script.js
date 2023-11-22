@@ -9,7 +9,7 @@ const numberListClosed = document.querySelector(".todo-done");
 // List items
 let allOpenListItems = document.querySelectorAll(".item-open");
 let allDoneListItems = document.querySelectorAll(".item-done");
-
+const localStorageArray = [];
 init();
 createBtn.addEventListener("click", createTodo);
 
@@ -58,7 +58,7 @@ function update() {
   if (allOpenListItems.length !== 0) {
     numberListOpen.innerHTML = `Keine offenen Einträge`;
   } else {
-    numberListOpen.innerHTML = `Offen (${allOpenListItems.length})`;
+    numberListOpen.innerHTML = `Offen (${localStorageArray.length})`;
   }
 
   // Anzeige für abgeschlossene Todo's
@@ -101,8 +101,6 @@ function sortList() {
 
 function saveInLocastorage() {
   let li = document.querySelectorAll(".item-open");
-
-  const localStorageArray = [];
 
   for (const elem of li) {
     localStorageArray.push(elem.getElementsByTagName("h4")[0].textContent);
