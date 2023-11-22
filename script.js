@@ -11,7 +11,6 @@ let allOpenListItems = document.querySelectorAll(".item-open");
 let allDoneListItems = document.querySelectorAll(".item-done");
 
 init();
-
 createBtn.addEventListener("click", createTodo);
 
 function createTodo() {
@@ -37,7 +36,6 @@ function createTodo() {
 }
 
 function deleteTodo(button) {
-  console.log(button.target.offsetParent);
   button.target.offsetParent.style.transform = "translateX(50%)";
   button.target.offsetParent.style.opacity = "0";
 
@@ -97,7 +95,6 @@ function init() {
 
 function sortList() {
   let ul = document.querySelector(".todos");
-  console.log(ul.getElementsByTagName("LI").length);
   Array.from(ul.getElementsByTagName("LI"))
     .sort((a, b) => a.textContent.localeCompare(b.textContent))
     .forEach((li) => ul.appendChild(li));
