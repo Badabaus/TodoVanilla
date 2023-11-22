@@ -79,16 +79,14 @@ function init() {
   );
 
   let getStorageList = localStorage.getItem("openItems");
-
-  if (!localStorage.getItem("openItems") === 0) {
-    for (const openListItem of JSON.parse(getStorageList)) {
-      let li = document.createElement("li");
-      li.classList.add("todo-item", "item-open");
-      li.innerHTML = `
+  getStorageList = JSON.parse(getStorageList);
+  for (const openListItem of getStorageList) {
+    let li = document.createElement("li");
+    li.classList.add("todo-item", "item-open");
+    li.innerHTML = `
         <h4>${openListItem}</h4><button class="delete-btn">Löschen</button>
       `;
-      getList.appendChild(li);
-    }
+    getList.appendChild(li);
   }
 
   update();
