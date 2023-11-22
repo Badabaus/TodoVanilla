@@ -55,7 +55,7 @@ function update() {
   // Anzeige für offene Todo's
   allOpenListItems = document.querySelectorAll(".item-open");
 
-  if (allOpenListItems.length === 0) {
+  if (allOpenListItems.length !== 0) {
     numberListOpen.innerHTML = `Keine offenen Einträge`;
   } else {
     numberListOpen.innerHTML = `Offen (${allOpenListItems.length})`;
@@ -80,13 +80,15 @@ function init() {
 
   let getStorageList = localStorage.getItem("openItems");
 
-  for (const openListItem of JSON.parse(getStorageList)) {
-    let li = document.createElement("li");
-    li.classList.add("todo-item", "item-open");
-    li.innerHTML = `
-      <h4>${openListItem}</h4><button class="delete-btn">Löschen</button>
-    `;
-    getList.appendChild(li);
+  if (!localStorage.getItem("openItems") === 0) {
+    for (const openListItem of JSON.parse(getStorageList)) {
+      let li = document.createElement("li");
+      li.classList.add("todo-item", "item-open");
+      li.innerHTML = `
+        <h4>${openListItem}</h4><button class="delete-btn">Löschen</button>
+      `;
+      getList.appendChild(li);
+    }
   }
 
   update();
