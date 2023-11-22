@@ -30,7 +30,6 @@ function createTodo() {
     li.style.transform = "translateX(0)";
     li.style.opacity = "1";
   }, 200);
-  localStorage.setItem("key", inputField.value);
   inputField.value = "";
   update();
 }
