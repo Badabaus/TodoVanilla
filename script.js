@@ -77,7 +77,7 @@ function init() {
   deleteBtn.forEach((deleteBtn) =>
     deleteBtn.addEventListener("click", deleteTodo)
   );
-
+  saveInLocastorage();
   let getStorageList = localStorage.getItem("openItems");
   getStorageList = JSON.parse(getStorageList);
   for (const openListItem of getStorageList) {
