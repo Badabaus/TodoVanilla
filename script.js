@@ -9,10 +9,11 @@ const numberListClosed = document.querySelector(".todo-done");
 // List items
 let allOpenListItems = document.querySelectorAll(".item-open");
 let allDoneListItems = document.querySelectorAll(".item-done");
-const localStorageArray = [];
-init();
-createBtn.addEventListener("click", createTodo);
+let localStorageArray = [];
+let getStorageList;
 
+createBtn.addEventListener("click", createTodo);
+init();
 function createTodo() {
   if (inputField.value.length == "") {
     return;
@@ -31,13 +32,13 @@ function createTodo() {
     li.style.opacity = "1";
   }, 200);
   inputField.value = "";
+
   update();
 }
 
 function deleteTodo(button) {
   button.target.offsetParent.style.transform = "translateX(50%)";
   button.target.offsetParent.style.opacity = "0";
-
   setTimeout(function () {
     button.target.offsetParent.remove();
     update();
@@ -50,15 +51,12 @@ function update() {
     deleteBtn.addEventListener("click", deleteTodo)
   );
 
-  saveInLocastorage();
-
   // Anzeige für offene Todo's
   allOpenListItems = document.querySelectorAll(".item-open");
-
-  if (allOpenListItems.length !== 0) {
+  if (allOpenListItems.length === 0) {
     numberListOpen.innerHTML = `Keine offenen Einträge`;
   } else {
-    numberListOpen.innerHTML = `Offen (${localStorageArray.length})`;
+    numberListOpen.innerHTML = `Offen (${allOpenListItems.length})`;
   }
 
   // Anzeige für abgeschlossene Todo's
@@ -68,6 +66,7 @@ function update() {
   } else {
     numberListClosed.innerHTML = `Abgeschlossen (${allDoneListItems.length})`;
   }
+  saveInLocalstorage();
 }
 
 function init() {
@@ -77,18 +76,10 @@ function init() {
   deleteBtn.forEach((deleteBtn) =>
     deleteBtn.addEventListener("click", deleteTodo)
   );
-  saveInLocastorage();
-  let getStorageList = localStorage.getItem("openItems");
-  getStorageList = JSON.parse(getStorageList);
-  for (const openListItem of getStorageList) {
-    let li = document.createElement("li");
-    li.classList.add("todo-item", "item-open");
-    li.innerHTML = `
-        <h4>${openListItem}</h4><button class="delete-btn">Löschen</button>
-      `;
-    getList.appendChild(li);
-  }
 
+  if (!localStorage.getItem("openItems"))
+    localStorage.setItem("openItems", JSON.stringify(localStorageArray));
+  openFromLocalstorage();
   update();
 }
 
@@ -99,12 +90,26 @@ function sortList() {
     .forEach((li) => ul.appendChild(li));
 }
 
-function saveInLocastorage() {
+function saveInLocalstorage() {
   let li = document.querySelectorAll(".item-open");
 
-  for (const elem of li) {
-    localStorageArray.push(elem.getElementsByTagName("h4")[0].textContent);
+  if (localStorageArray !== 0) {
+    for (const elem of li) {
+      localStorageArray.push(elem.getElementsByTagName("h4")[0].textContent);
+    }
   }
-
   localStorage.setItem("openItems", JSON.stringify(localStorageArray));
+  localStorageArray = [];
+}
+
+function openFromLocalstorage() {
+  getStorageList = JSON.parse(localStorage.getItem("openItems"));
+  for (const openListItem of getStorageList) {
+    let li = document.createElement("li");
+    li.classList.add("todo-item", "item-open");
+    li.innerHTML = `
+        <h4>${openListItem}</h4><button class="delete-btn">Löschen</button>
+      `;
+    getList.appendChild(li);
+  }
 }
